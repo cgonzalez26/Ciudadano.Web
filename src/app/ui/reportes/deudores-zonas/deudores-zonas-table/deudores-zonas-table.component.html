@@ -1,0 +1,89 @@
+<form class="example-form">
+<table class="example-full-width" cellspacing="0">
+    <tr>
+        <td>
+            <mat-form-field class="example-full-width">
+                <mat-label>Zonas:</mat-label>
+                <mat-select [formControl]="ZonaId" [(ngModel)]="selected">
+                    <mat-option [value]="'ID_ALL'"> Todas </mat-option>
+                    <mat-option *ngFor="let zona of zonas" [value]="zona.Id">
+                        {{ zona.Nombre }}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>       
+         </td>
+        <td>
+            <mat-form-field class="example-full-width">
+                <mat-label>Buscar por Apellido/Nombres:</mat-label>
+                <input matInput [formControl]="searchInput" placeholder="{{'COMMON.SEARCH' | translate}}...">
+            </mat-form-field>
+        </td>
+    </tr>
+    <tr><td>
+        <button mat-raised-button color="accent" class="" (click)="buscar()">Buscar</button>
+    </td></tr>
+ </table>   
+</form>
+<p></p>
+<!--class w-30-p
+    <button mat-raised-button color="accent" class="ml-24" (click)="add()">
+    Agregar Establecimiento
+</button>
+(activate)="activate($event)"-->
+
+<ngx-datatable #table id="tableForm" class="material h600" [rows]="filteredRows | async" [columnMode]="'force'"
+    [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'" [limit]="10" [messages]="messages" >
+    <ngx-datatable-column prop="Zona" name="Zona" [width]="15">
+        <ng-template ngx-datatable-cell-template let-row="row" let-value="value">
+            <span>{{row.Zona ? row.Zona : 'No disponible'}}</span>
+        </ng-template>
+    </ngx-datatable-column>
+    <ngx-datatable-column prop="Apellido" name="Apellido" [width]="15">
+        <ng-template ngx-datatable-cell-template let-row="row" let-value="value">
+            <span>{{row.sApellido ? row.sApellido : 'No disponible'}}</span>
+        </ng-template>
+    </ngx-datatable-column>
+    <ngx-datatable-column prop="Nombre" name="Nombre" [width]="15">
+        <ng-template ngx-datatable-cell-template let-row="row" let-value="value">
+            <span>{{row.sNombre ? row.sNombre : 'No disponible'}}</span>
+        </ng-template>
+    </ngx-datatable-column>   
+    <ngx-datatable-column prop="Direccion" name="Direccion" [width]="15">
+        <ng-template ngx-datatable-cell-template let-row="row" let-value="value">
+            <span>{{row.sDomicilio ? row.sDomicilio : '-'}}</span>
+        </ng-template>
+    </ngx-datatable-column> 
+    <ngx-datatable-column prop="Monto a Pagar" name="Monto a Pagar" [width]="15">
+        <ng-template ngx-datatable-cell-template let-row="row" let-value="value">
+            <span>{{row.nSaldo ? row.nSaldo : '0'}}</span>
+        </ng-template>
+    </ngx-datatable-column>
+  
+    <!-- <ngx-datatable-column prop="Institucion" name="Institucion" [width]="25">
+        <ng-template ngx-datatable-cell-template let-row="row" let-value="value">
+            <span>{{row.Institucion ? row.Institucion : 'No disponible'}}</span>
+        </ng-template>
+    </ngx-datatable-column> -->
+    <ngx-datatable-column [sortable]="true" [canAutoResize]="false" [draggable]="false" [resizeable]="false">
+        <ng-template ngx-datatable-cell-template let-row="row">
+            <button mat-button [matMenuTriggerFor]="actionsMenu" class="user-button">
+                <div fxLayout="row" fxLayoutAlign="center center">
+                    <mat-icon>more_vert</mat-icon>
+                </div>
+            </button>
+            <mat-menu #actionsMenu="matMenu">
+                <div>
+                    <button mat-menu-item (click)="view(row)">
+                        <mat-icon>more</mat-icon>
+                        <span>Ver Detalle</span>
+                    </button>
+                </div>
+            </mat-menu>
+        </ng-template>
+    </ngx-datatable-column>
+</ngx-datatable>
+<div>&nbsp;</div>
+<div class="col-md-4 text-right">
+    <button mat-raised-button color="accent" (click)="downloadPDF()">Exportar a Pdf</button>&nbsp;
+</div>
+

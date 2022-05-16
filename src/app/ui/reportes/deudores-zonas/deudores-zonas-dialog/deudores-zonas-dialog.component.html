@@ -1,0 +1,60 @@
+<div class="dialog-content-wrapper" *blockUI="'form-dialog-deudores'">
+    <mat-toolbar matDialogTitle class="mat-accent m-0">
+        <mat-toolbar-row fxLayout="row" fxLayoutAlign="space-between center">
+            <h2 mat-dialog-title class="title dialog-title">
+                {{title | translate}}
+            </h2>
+            <button mat-icon-button (click)="cancel()" aria-label="Close dialog">
+                <mat-icon>close</mat-icon>
+            </button>
+        </mat-toolbar-row>
+    </mat-toolbar>
+
+    <ngx-datatable #table id="tableFormDialog" class="material" [rows]="forms" [columnMode]="'force'"
+        [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'" [limit]="15" [messages]="messages" style ="width:100%" >
+        <ngx-datatable-column prop="Tipo Impuesto" name="Tipo Impuesto" [width]="300">
+            <ng-template ngx-datatable-cell-template let-row="row" let-value="value">
+                <span>{{row.TipoImpuesto ? row.TipoImpuesto : 'No disponible'}}</span>
+            </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column prop="Propiedad" name="Propiedad" [width]="250">
+            <ng-template ngx-datatable-cell-template let-row="row" let-value="value">
+                <span>{{row.Propiedad ? row.Propiedad : 'No disponible'}}</span>
+            </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column prop="Periodo" name="Periodo" [width]="250">
+            <ng-template ngx-datatable-cell-template let-row="row" let-value="value">
+                <span>{{row.iPeriodo ? row.iAnio+' - '+row.iPeriodo : 'No disponible'}}</span>
+            </ng-template>
+        </ngx-datatable-column>   
+        <ngx-datatable-column prop="Monto a Pagar" name="Monto a Pagar" [width]="200">
+            <ng-template ngx-datatable-cell-template let-row="row" let-value="value">
+                <span>{{row.nSaldo ? row.nSaldo : '0'}}</span>
+            </ng-template>
+        </ngx-datatable-column>  
+        <!--<ngx-datatable-footer>
+            <ng-template
+            ngx-datatable-footer-template
+            let-rowCount="rowCount"
+            let-pageSize="pageSize"
+            let-selectedCount="selectedCount",
+            let-curPage="curPage"
+            let-offset="offset">
+            <div style="padding: 5px 10px">
+            <div>
+                <strong>Total</strong>:
+            </div>
+            </div>
+        </ng-template>
+        </ngx-datatable-footer>-->
+    </ngx-datatable>
+    
+    <div mat-dialog-actions class="m-0 py-12 px-24" fxLayout="row" fxLayoutAlign="end center">
+        <button mat-raised-button color="accent" class="ml-8" (click)="printDeudas()">
+            Imprimir Pdf
+        </button>
+        <button mat-raised-button color="warn" class="ml-8" (click)="cancel()" aria-label="CANCEL">
+            Cancelar
+        </button>
+    </div>
+</div>

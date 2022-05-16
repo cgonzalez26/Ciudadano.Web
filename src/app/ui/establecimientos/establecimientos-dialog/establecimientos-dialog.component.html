@@ -1,0 +1,59 @@
+<div class="dialog-content-wrapper" *blockUI="'form-dialog-establecimiento'">
+    <mat-toolbar matDialogTitle class="mat-accent m-0">
+        <mat-toolbar-row fxLayout="row" fxLayoutAlign="space-between center">
+            <h2 mat-dialog-title class="title dialog-title">
+                {{title | translate}}
+            </h2>
+            <button mat-icon-button (click)="cancel()" aria-label="Close dialog">
+                <mat-icon>close</mat-icon>
+            </button>
+        </mat-toolbar-row>
+    </mat-toolbar>
+
+    <div mat-dialog-content class="p-24 pb-0 m-0" fusePerfectScrollbar>
+        <form [formGroup]="dialogForm" autocomplete="off">
+            <div fxLayout="row">
+                <div fxFlex="50" class="mr-4">
+                    <mat-form-field class="w-100-p">
+                        <input matInput name="Codigo" formControlName="Codigo" placeholder="Codigo"
+                            required minlength="2" autocomplete="off">
+                    </mat-form-field>
+                </div>             
+                <div fxFlex="50" class="mr-4">
+                    <mat-form-field class="w-100-p">
+                        <input matInput name="Nombre" formControlName="Nombre" placeholder="Nombre"
+                            required minlength="3" autocomplete="off">
+                    </mat-form-field>
+                </div> 
+            </div>
+            <div fxLayout="row">
+                <div fxFlex="50" class="mr-4">
+                    <mat-form-field class="w-95-p">
+                        <mat-select name="TipoEstablecimientoId" formControlName="TipoEstablecimientoId" placeholder="Tipo Establecimiento">
+                            <mat-option *ngFor="let tipo of tipoestablecimientos" [value]="tipo.Id">
+                                {{tipo.Nombre}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>  
+                <div fxFlex="50" class="ml-4">
+                    <mat-form-field class="w-100-p">
+                        <input matInput name="Domicilio" formControlName="Domicilio" placeholder="Domicilio"
+                            minlength="3" autocomplete="off">
+                    </mat-form-field>
+                </div>
+            </div>            
+        </form>
+    </div>
+
+    <div mat-dialog-actions class="m-0 py-12 px-24" fxLayout="row" fxLayoutAlign="end center">
+        <button mat-raised-button color="accent" (click)="save()" [disabled]="dialogForm.invalid"
+            aria-label="action == 'edit' ? 'SAVE CHANGES' : 'SAVE'">
+            {{action == 'edit' ? 'Guardar cambios' : 'Guardar'}}
+        </button>
+
+        <button mat-raised-button color="warn" class="ml-8" (click)="cancel()" aria-label="CANCEL">
+            Cancelar
+        </button>
+    </div>
+</div>

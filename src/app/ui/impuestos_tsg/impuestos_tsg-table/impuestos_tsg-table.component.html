@@ -1,0 +1,75 @@
+<mat-form-field class="w-50-p">
+    <input matInput [formControl]="searchInput" placeholder="{{'COMMON.SEARCH' | translate}}...">
+</mat-form-field>
+<!--<button mat-raised-button color="accent" class="ml-24" (click)="add()">
+    Agregar Establecimiento
+</button>
+(activate)="activate($event)"-->
+
+<ngx-datatable #table id="tableForm" class="material h600" [rows]="filteredRows | async" [columnMode]="'force'"
+    [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'" [limit]="10" [messages]="messages" >
+    <ngx-datatable-column prop="Catastro" name="Catastro" [width]="25">
+        <ng-template ngx-datatable-cell-template let-row="row" let-value="value">
+            <span>{{row.sCatastro ? row.sCatastro : 'No disponible'}}</span>
+        </ng-template>
+    </ngx-datatable-column>
+    <ngx-datatable-column prop="Año" name="Año" [width]="15">
+        <ng-template ngx-datatable-cell-template let-row="row" let-value="value">
+            <span>{{row.iAnio ? row.iAnio : 'No disponible'}}</span>
+        </ng-template>
+    </ngx-datatable-column>
+    <ngx-datatable-column prop="Periodo" name="Periodo" [width]="15">
+        <ng-template ngx-datatable-cell-template let-row="row" let-value="value">
+            <span>{{row.iPeriodo ? row.iPeriodo : 'No disponible'}}</span>
+        </ng-template>
+    </ngx-datatable-column>    
+    <ngx-datatable-column prop="Monto a Pagar" name="Monto a Pagar" [width]="15">
+        <ng-template ngx-datatable-cell-template let-row="row" let-value="value">
+            <span>{{row.nMonto_Pagar ? row.nMonto_Pagar : '-'}}</span>
+        </ng-template>
+    </ngx-datatable-column>
+    <ngx-datatable-column prop="Fecha de Pago" name="Fecha de Pago" [width]="15">
+        <ng-template ngx-datatable-cell-template let-row="row" let-value="value">
+            <span>{{row.dFecha_Pago ? (row.dFecha_Pago | date:'dd/MM/yyyy' ) : '-'}}</span>
+        </ng-template>
+    </ngx-datatable-column>
+    <ngx-datatable-column prop="Pago" name="Pago" [width]="15">
+        <ng-template ngx-datatable-cell-template let-row="row" let-value="value">
+            <span>{{row.nPago ? row.nPago : '-'}}</span>
+        </ng-template>
+    </ngx-datatable-column>
+    <ngx-datatable-column prop="Saldo" name="Saldo" [width]="15">
+        <ng-template ngx-datatable-cell-template let-row="row" let-value="value">
+            <span>{{row.nSaldo ? row.nSaldo : '-'}}</span>
+        </ng-template>
+    </ngx-datatable-column>   
+    <!-- <ngx-datatable-column prop="Institucion" name="Institucion" [width]="25">
+        <ng-template ngx-datatable-cell-template let-row="row" let-value="value">
+            <span>{{row.Institucion ? row.Institucion : 'No disponible'}}</span>
+        </ng-template>
+    </ngx-datatable-column> -->
+    <ngx-datatable-column [sortable]="true" [canAutoResize]="false" [draggable]="false" [resizeable]="false" *ngIf="isContribuyente">
+        <ng-template ngx-datatable-cell-template let-row="row">
+            <button mat-button [matMenuTriggerFor]="actionsMenu" class="user-button">
+                <div fxLayout="row" fxLayoutAlign="center center">
+                    <mat-icon>more_vert</mat-icon>
+                </div>
+            </button>
+            <mat-menu #actionsMenu="matMenu">
+                <div>
+                    <button mat-menu-item (click)="edit(row)">
+                        <mat-icon>picture_as_pdf</mat-icon>
+                        <span>Imprimir Boleta</span>
+                    </button>
+                </div>
+            </mat-menu>
+        </ng-template>
+    </ngx-datatable-column>
+</ngx-datatable>
+<div>&nbsp;</div>
+<div class="col-md-4 text-right">
+    <button mat-raised-button color="accent" (click)="downloadPDF()">Exportar a Pdf</button>&nbsp;
+    <button mat-raised-button color="accent" (click)="downloadExcel()">Exportar a Excel</button>
+</div>
+
+

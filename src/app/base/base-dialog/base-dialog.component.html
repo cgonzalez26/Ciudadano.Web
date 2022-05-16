@@ -1,0 +1,61 @@
+<div class="dialog-content-wrapper" *blockUI="'bw-blockui-dialog'">
+    <mat-toolbar matDialogTitle>
+        <mat-toolbar-row fxLayout="row" fxLayoutAlign="space-between center">
+            <span class="dialog-title">{{title | translate}}</span>
+            <button mat-icon-button (click)="cancel()" aria-label="close">
+                <mat-icon>close</mat-icon>
+            </button>
+        </mat-toolbar-row>
+    </mat-toolbar>
+    <div mat-dialog-content class="m-0 px-24 py-0" fusePerfectScrollbar>
+        <div [formGroup]="dialogForm">
+            <ng-container *ngFor="let property of columns | keyvalue:sortByIndexAscending">
+                <div fxLayout="row" *ngIf="row.hasOwnProperty(property.key)">
+                    <div fxFlex="100">
+                        <ng-container *ngIf="columns[property.key] && columns[property.key].type">
+                            <ng-container [ngSwitch]="columns[property.key].type">
+                                <ng-container *ngSwitchCase="type.SINGLE_LINE_STRING">
+                                    <mat-form-field class="w-100-p">
+                                        <mat-form-field class="w-100-p">
+                                            <input matInput name="{{property.key}}" formControlName="{{property.key}}"
+                                                placeholder="{{columns[property.key] && columns[property.key].translationCode ? (columns[property.key].translationCode | translate) : (columns[property.key] && columns[property.key].name ? columns[property.key].name : property.key)}}">
+                                        </mat-form-field>
+                                    </mat-form-field>
+                                </ng-container>
+                                <ng-container *ngSwitchCase="type.NUMBER">
+                                    <mat-form-field class="w-100-p">
+                                        <mat-form-field class="w-100-p">
+                                            <input matInput type="number" name="{{property.key}}" formControlName="{{property.key}}"
+                                                placeholder="{{columns[property.key] && columns[property.key].translationCode ? (columns[property.key].translationCode | translate) : (columns[property.key] && columns[property.key].name ? columns[property.key].name : property.key)}}">
+                                        </mat-form-field>
+                                    </mat-form-field>
+                                </ng-container>
+                                <ng-container *ngSwitchCase="type.MULTIPLE_LINE_STRING">
+                                    <mat-form-field class="w-100-p">
+                                        <textarea matInput name="{{property.key}}" formControlName="{{property.key}}"
+                                        placeholder="{{columns[property.key] && columns[property.key].translationCode ? (columns[property.key].translationCode | translate) : (columns[property.key] && columns[property.key].name ? columns[property.key].name : property.key)}}"></textarea>
+                                    </mat-form-field>
+                                </ng-container>
+                            </ng-container>
+                        </ng-container>
+                        <ng-container *ngIf="!columns[property.key] || !columns[property.key].type">
+                            <mat-form-field class="w-100-p">
+                                <input matInput name="{{property.key}}" formControlName="{{property.key}}"
+                                    placeholder="{{columns[property.key] && columns[property.key].translationCode ? (columns[property.key].translationCode | translate) : (columns[property.key] && columns[property.key].name ? columns[property.key].name : property.key)}}">
+                            </mat-form-field>
+                        </ng-container>
+                    </div>
+                </div>
+            </ng-container>
+        </div>
+    </div>
+    <div mat-dialog-actions class="m-0 px-24 py-12" fxLayout="row" fxLayoutAlign="end center">
+        <button mat-raised-button color="primary" [disabled]="dialogForm.invalid" (click)="save()"
+            aria-label="action === 'edit' ? ('COMMON.BUTTONS.SAVE_CHANGES' | translate) : ('COMMON.BUTTONS.SAVE' | translate)">
+            {{action === 'edit' ? ('COMMON.BUTTONS.SAVE_CHANGES' | translate) : ('COMMON.BUTTONS.SAVE' | translate)}}
+        </button>
+        <button mat-raised-button color="warn" class="ml-8" (click)="cancel()" aria-label="Cancelar">
+            {{'COMMON.BUTTONS.CANCEL' | translate}}
+        </button>
+    </div>
+</div>

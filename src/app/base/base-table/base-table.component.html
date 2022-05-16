@@ -1,0 +1,159 @@
+<div fxLayout="row">
+    <div fxFlex>
+        <mat-form-field class="w-100-p">
+            <input matInput placeholder="{{'COMMON.SEARCH' | translate}}..." [formControl]="searchInput">
+            <button mat-button *ngIf="searchInput.value" matSuffix mat-icon-button aria-label="Clear"
+                (click)="searchInput.setValue('');">
+                <mat-icon>close</mat-icon>
+            </button>
+        </mat-form-field>
+    </div>
+    <div fxFlex="64px" fxLayoutAlign="center center" *ngIf="baseTableOptions.DefaultActions.Add.Show">
+        <ng-container *ngIf="baseTableOptions.DefaultActions.Add.RequestPermission">
+            <button mat-mini-fab aria-label="Add" matTooltip="{{'COMMON.BUTTONS.ADD' | translate}}"
+                (click)="add()" *ngxPermissionsOnly="[baseTableOptions.DefaultActions.Add.Permission]">
+                <mat-icon>add</mat-icon>
+            </button>
+        </ng-container>
+        <ng-container *ngIf="!baseTableOptions.DefaultActions.Add.RequestPermission">
+            <button mat-mini-fab aria-label="Add" matTooltip="{{'COMMON.BUTTONS.ADD' | translate}}" (click)="add()">
+                <mat-icon>add</mat-icon>
+            </button>
+        </ng-container>
+    </div>
+</div>
+<ngx-datatable #computersTable class="material h600"
+    [rows]="filteredRows"
+    [columnMode]="'flex'"
+    [headerHeight]="50"
+    [footerHeight]="50"
+    [rowHeight]="'auto'"
+    [limit]="baseTableOptions.Limit"
+    [loadingIndicator]="loading"
+    [messages]="messages">
+    <ngx-datatable-column prop="Id" name="{{'COMMON.DEFAULT_COLUMNS.ID' | translate}}"
+        [flexGrow]="baseTableOptions.DefaultColumns.Id.FlexGrow"
+        [sortable]="baseTableOptions.DefaultColumns.Id.Sortable"
+        *ngIf="baseTableOptions.DefaultColumns.Id.Show">
+        <ng-template ngx-datatable-cell-template let-row="row" let-value="value" let-rowIndex="rowIndex">
+            {{value ? value : ('COMMON.NOT_AVAILABLE' | translate)}}
+        </ng-template>
+    </ngx-datatable-column>
+    <ngx-datatable-column prop="RegisterDate" name="{{'COMMON.DEFAULT_COLUMNS.REGISTER_DATE' | translate}}"
+        [flexGrow]="baseTableOptions.DefaultColumns.RegisterDate.FlexGrow"
+        [sortable]="baseTableOptions.DefaultColumns.RegisterDate.Sortable"
+        *ngIf="baseTableOptions.DefaultColumns.RegisterDate.Show">
+        <ng-template ngx-datatable-cell-template let-row="row" let-value="value" let-rowIndex="rowIndex">
+            {{value ? (value | date: 'dd/MM/yyyy HH:mm') : ('COMMON.NOT_AVAILABLE' | translate)}}
+        </ng-template>
+    </ngx-datatable-column>
+    <ngx-datatable-column prop="RegisterBy" name="{{'COMMON.DEFAULT_COLUMNS.REGISTER_BY' | translate}}"
+        [flexGrow]="baseTableOptions.DefaultColumns.RegisterBy.FlexGrow"
+        [sortable]="baseTableOptions.DefaultColumns.RegisterBy.Sortable"
+        *ngIf="baseTableOptions.DefaultColumns.RegisterBy.Show">
+        <ng-template ngx-datatable-cell-template let-row="row" let-value="value" let-rowIndex="rowIndex">
+            {{value ? (value | titlecase) : ('COMMON.NOT_AVAILABLE' | translate)}}
+        </ng-template>
+    </ngx-datatable-column>
+    <ngx-datatable-column prop="UpdatedDate" name="{{'COMMON.DEFAULT_COLUMNS.UPDATED_DATE' | translate}}"
+        [flexGrow]="baseTableOptions.DefaultColumns.UpdatedDate.FlexGrow"
+        [sortable]="baseTableOptions.DefaultColumns.UpdatedDate.Sortable"
+        *ngIf="baseTableOptions.DefaultColumns.UpdatedDate.Show">
+        <ng-template ngx-datatable-cell-template let-row="row" let-value="value" let-rowIndex="rowIndex">
+            {{value ? (value | date: 'dd/MM/yyyy HH:mm') : ('COMMON.NOT_AVAILABLE' | translate)}}
+        </ng-template>
+    </ngx-datatable-column>
+    <ngx-datatable-column prop="UpdatedBy" name="{{'COMMON.DEFAULT_COLUMNS.UPDATED_BY' | translate}}"
+        [flexGrow]="baseTableOptions.DefaultColumns.UpdatedBy.FlexGrow"
+        [sortable]="baseTableOptions.DefaultColumns.UpdatedBy.Sortable"
+        *ngIf="baseTableOptions.DefaultColumns.UpdatedBy.Show">
+        <ng-template ngx-datatable-cell-template let-row="row" let-value="value" let-rowIndex="rowIndex">
+            {{value ? (value | titlecase) : ('COMMON.NOT_AVAILABLE' | translate)}}
+        </ng-template>
+    </ngx-datatable-column>
+    <ngx-datatable-column prop="DeletedDate" name="{{'COMMON.DEFAULT_COLUMNS.DELETED_DATE' | translate}}"
+        [flexGrow]="baseTableOptions.DefaultColumns.DeletedDate.FlexGrow"
+        [sortable]="baseTableOptions.DefaultColumns.DeletedDate.Sortable"
+        *ngIf="baseTableOptions.DefaultColumns.DeletedDate.Show">
+        <ng-template ngx-datatable-cell-template let-row="row" let-value="value" let-rowIndex="rowIndex">
+            {{value ? (value | date: 'dd/MM/yyyy HH:mm') : ('COMMON.NOT_AVAILABLE' | translate)}}
+        </ng-template>
+    </ngx-datatable-column>
+    <ngx-datatable-column prop="DeletedBy" name="{{'COMMON.DEFAULT_COLUMNS.DELETED_BY' | translate}}"
+        [flexGrow]="baseTableOptions.DefaultColumns.DeletedBy.FlexGrow"
+        [sortable]="baseTableOptions.DefaultColumns.DeletedBy.Sortable"
+        *ngIf="baseTableOptions.DefaultColumns.DeletedBy.Show">
+        <ng-template ngx-datatable-cell-template let-row="row" let-value="value" let-rowIndex="rowIndex">
+            {{value ? (value | titlecase) : ('COMMON.NOT_AVAILABLE' | translate)}}
+        </ng-template>
+    </ngx-datatable-column>
+    <ng-container *ngFor="let property of columns | keyvalue:sortByIndexAscending">
+        <ngx-datatable-column prop="{{property.key}}" name="{{columns[property.key] && columns[property.key].translationCode ? (columns[property.key].translationCode | translate) : (columns[property.key] && columns[property.key].name ? columns[property.key].name : property.key)}}"
+            [flexGrow]="columns[property.key] && columns[property.key].flexGrow ? columns[property.key].flexGrow : 1"
+            [sortable]="columns[property.key] && columns[property.key].sortable ? columns[property.key].sortable : 1"
+            *ngIf="property.key !== 'Id' && property.key !== 'RegisterDate' && property.key !== 'RegisterBy' && property.key !== 'UpdatedDate' && property.key !== 'UpdatedBy' && property.key !== 'DeletedDate' && property.key !== 'DeletedBy' && property.key !== 'IsDeleted'">
+            <ng-template ngx-datatable-cell-template let-row="row" let-value="value" let-rowIndex="rowIndex">
+                <ng-container *ngIf="columns[property.key] && columns[property.key].type">
+                    <ng-container [ngSwitch]="columns[property.key].type">
+                        <ng-container *ngSwitchCase="type.DATE">
+                            {{row[property.key] && value ? (value | date: 'dd/MM/yyyy HH:mm') : ('COMMON.NOT_AVAILABLE' | translate)}}
+                        </ng-container>
+                        <ng-container *ngSwitchCase="type.ARRAY">
+                            Esto es un array
+                        </ng-container>
+                        <ng-container *ngSwitchDefault>
+                            {{row[property.key] && value ? (value | titlecase) : ('COMMON.NOT_AVAILABLE' | translate)}}
+                        </ng-container>
+                    </ng-container>
+                </ng-container>
+                <ng-container *ngIf="!columns[property.key] || !columns[property.key].type">
+                    {{row[property.key] && value ? (value | titlecase) : ('COMMON.NOT_AVAILABLE' | translate)}}
+                </ng-container>
+            </ng-template>
+        </ngx-datatable-column>
+    </ng-container>
+    <ngx-datatable-column [sortable]="false" [canAutoResize]="false" [draggable]="false" [resizeable]="false"
+        [flexGrow]="baseTableOptions.DefaultActions.FlexGrow"
+        *ngIf="baseTableOptions.DefaultActions.Edit.Show || baseTableOptions.DefaultActions.Delete.Show">
+        <ng-template ngx-datatable-header-template>
+            
+        </ng-template>
+        <ng-template ngx-datatable-cell-template let-row="row">
+            <button mat-button [matMenuTriggerFor]="actionsMenu">
+                <div fxLayout="row" fxLayoutAlign="center center">
+                    <mat-icon>more_vert</mat-icon>
+                </div>
+            </button>
+            <mat-menu #actionsMenu="matMenu">
+                <ng-container *ngIf="baseTableOptions.DefaultActions.Edit.Show">
+                    <ng-container *ngIf="baseTableOptions.DefaultActions.Edit.RequestPermission">
+                        <button mat-menu-item (click)="edit(row)" *ngxPermissionsOnly="[baseTableOptions.DefaultActions.Edit.Permission]">
+                            <mat-icon>edit</mat-icon>
+                            <span>{{'COMMON.BUTTONS.EDIT' | translate}}</span>
+                        </button>
+                    </ng-container>
+                    <ng-container *ngIf="!baseTableOptions.DefaultActions.Edit.RequestPermission">
+                        <button mat-menu-item (click)="edit(row)">
+                            <mat-icon>edit</mat-icon>
+                            <span>{{'COMMON.BUTTONS.EDIT' | translate}}</span>
+                        </button>
+                    </ng-container>
+                </ng-container>
+                <ng-container *ngIf="baseTableOptions.DefaultActions.Delete.Show">
+                    <ng-container *ngIf="baseTableOptions.DefaultActions.Delete.RequestPermission">
+                        <button mat-menu-item (click)="delete(row)" *ngxPermissionsOnly="[baseTableOptions.DefaultActions.Delete.Permission]">
+                            <mat-icon>delete</mat-icon>
+                            <span>{{'COMMON.BUTTONS.DELETE' | translate}}</span>
+                        </button>
+                    </ng-container>
+                    <ng-container *ngIf="!baseTableOptions.DefaultActions.Delete.RequestPermission">
+                        <button mat-menu-item (click)="delete(row)">
+                            <mat-icon>delete</mat-icon>
+                            <span>{{'COMMON.BUTTONS.DELETE' | translate}}</span>
+                        </button>
+                    </ng-container>
+                </ng-container>
+            </mat-menu>
+        </ng-template>
+    </ngx-datatable-column>
+</ngx-datatable>

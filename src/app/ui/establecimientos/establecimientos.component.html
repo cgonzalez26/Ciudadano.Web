@@ -1,0 +1,10 @@
+<div fxLayout="row" class="h-100-p w-100-p" *blockUI="'forms-block'">
+    <div fxLayout="column" class="h-100-p w-100-p pl-24 pr-24 pb-12">
+        <div fxFlex="64px" fxLayoutAlign="space-between center">
+            <h2>{{'PAGES.FORMS.TITLE' | translate}}</h2>
+        </div>
+        <div fxFlex fusePerfectScrollbar>
+            <establecimientos-table [forms$]="forms$" (onAdd)="add()" (onEdit)="edit($event)" (onActivate)="onActivate($event)"></establecimientos-table>
+        </div>
+    </div>
+  </div>

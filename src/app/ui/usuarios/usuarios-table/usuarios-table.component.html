@@ -1,0 +1,56 @@
+<mat-form-field class="w-50-p">
+    <input matInput [formControl]="searchInput" placeholder="{{'COMMON.SEARCH' | translate}}...">
+</mat-form-field>
+<button mat-raised-button color="accent" class="ml-24" (click)="add()">
+    Agregar Usuario
+</button>
+
+<ngx-datatable #table id="tableForm" *blockUI="'BlockUsuario'" class="material h600" [rows]="filteredRows | async" [columnMode]="'force'"
+    [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'" [limit]="6" [messages]="messages" (activate)="activate($event)">
+    <ngx-datatable-column prop="UsuarioNombre" name="Usuario" [width]="25">
+        <ng-template ngx-datatable-cell-template let-row="row" let-value="value">
+            <span>{{row.UsuarioNombre ? row.UsuarioNombre : 'No disponible'}}</span>
+        </ng-template>
+    </ngx-datatable-column>
+    <ngx-datatable-column prop="Apellidos" name="Apellidos" [width]="25">
+        <ng-template ngx-datatable-cell-template let-row="row" let-value="value">
+            <span>{{row.Apellidos ? row.Apellidos : 'No disponible'}}</span>
+        </ng-template>
+    </ngx-datatable-column>
+    <ngx-datatable-column prop="Nombres" name="Nombres" [width]="25">
+        <ng-template ngx-datatable-cell-template let-row="row" let-value="value">
+            <span>{{row.Nombres ? row.Nombres : 'No disponible'}}</span>
+        </ng-template>
+    </ngx-datatable-column>
+    <ngx-datatable-column prop="Email" name="Email" [width]="25">
+        <ng-template ngx-datatable-cell-template let-row="row" let-value="value">
+            <span>{{row.Email ? row.Email : 'No disponible'}}</span>
+        </ng-template>
+    </ngx-datatable-column>
+    <!-- <ngx-datatable-column prop="Institucion" name="Institucion" [width]="25">
+        <ng-template ngx-datatable-cell-template let-row="row" let-value="value">
+            <span>{{row.Institucion ? row.Institucion : 'No disponible'}}</span>
+        </ng-template>
+    </ngx-datatable-column> -->
+    <ngx-datatable-column [sortable]="true" [canAutoResize]="false" [draggable]="false" [resizeable]="false">
+        <ng-template ngx-datatable-cell-template let-row="row">
+            <button mat-button [matMenuTriggerFor]="actionsMenu" class="user-button">
+                <div fxLayout="row" fxLayoutAlign="center center">
+                    <mat-icon>more_vert</mat-icon>
+                </div>
+            </button>
+            <mat-menu #actionsMenu="matMenu">
+                <div>
+                    <button mat-menu-item (click)="edit(row)">
+                        <mat-icon>edit</mat-icon>
+                        <span>Editar</span>
+                    </button>
+                    <button mat-menu-item (click)="remove(row)">
+                        <mat-icon>delete</mat-icon>
+                        <span>Borrar</span>
+                    </button>
+                </div>
+            </mat-menu>
+        </ng-template>
+    </ngx-datatable-column>
+</ngx-datatable>

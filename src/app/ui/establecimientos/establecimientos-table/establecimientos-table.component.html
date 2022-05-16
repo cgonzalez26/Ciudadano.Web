@@ -1,0 +1,43 @@
+<mat-form-field class="w-50-p">
+    <input matInput [formControl]="searchInput" placeholder="{{'COMMON.SEARCH' | translate}}...">
+</mat-form-field>
+<button mat-raised-button color="accent" class="ml-24" (click)="add()">
+    Agregar Establecimiento
+</button>
+
+<ngx-datatable #table id="tableForm" class="material h600" [rows]="filteredRows | async" [columnMode]="'force'"
+    [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'" [limit]="6" [messages]="messages" (activate)="activate($event)">
+    <ngx-datatable-column prop="Codigo" name="Codigo" [width]="25">
+        <ng-template ngx-datatable-cell-template let-row="row" let-value="value">
+            <span>{{row.Codigo ? row.Codigo : 'No disponible'}}</span>
+        </ng-template>
+    </ngx-datatable-column>
+    <ngx-datatable-column prop="Nombre" name="Nombre" [width]="25">
+        <ng-template ngx-datatable-cell-template let-row="row" let-value="value">
+            <span>{{row.Nombre ? row.Nombre : 'No disponible'}}</span>
+        </ng-template>
+    </ngx-datatable-column>
+    <!-- <ngx-datatable-column prop="Institucion" name="Institucion" [width]="25">
+        <ng-template ngx-datatable-cell-template let-row="row" let-value="value">
+            <span>{{row.Institucion ? row.Institucion : 'No disponible'}}</span>
+        </ng-template>
+    </ngx-datatable-column> -->
+    <ngx-datatable-column [sortable]="true" [canAutoResize]="false" [draggable]="false" [resizeable]="false">
+        <ng-template ngx-datatable-cell-template let-row="row">
+            <button mat-button [matMenuTriggerFor]="actionsMenu" class="user-button">
+                <div fxLayout="row" fxLayoutAlign="center center">
+                    <mat-icon>more_vert</mat-icon>
+                </div>
+            </button>
+            <mat-menu #actionsMenu="matMenu">
+                <div>
+                    <button mat-menu-item (click)="edit(row)">
+                        <mat-icon>edit</mat-icon>
+                        <span>Editar</span>
+                    </button>
+                </div>
+            </mat-menu>
+        </ng-template>
+    </ngx-datatable-column>
+</ngx-datatable>
+

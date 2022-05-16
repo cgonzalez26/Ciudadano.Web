@@ -1,0 +1,63 @@
+<div id="home-container" class="page-layout simple fullwidth">
+    <!-- HEADER -->
+    <div class="header" fxLayout="row" fxLayoutAlign="start start">
+        <div class="title-and-description" fxLayout="column" fxLayoutAlign="center center" fxFlex>
+            <div class="h1">{{'PAGES.HOME.TITLE' | translate}}</div>
+            <div class="h3">
+                {{'PAGES.HOME.DESCRIPTION' | translate}}
+            </div>
+        </div>
+    </div>
+    <!-- / HEADER -->
+
+    <!-- CONTENT -->
+    <div class="content" fxLayout="column">
+        <div class="price-tables" fxLayout="row wrap" fxLayoutAlign="center center">
+        
+
+            <div class="price-table style-2 mat-elevation-z12" fxLayout="column" *blockUI="'bw-blockui-impuestos-aut'">
+
+                <div class="package-type mat-accent-fg">{{'PAGES.IMPUESTOS_AUT.TITLE' | translate}}
+                    <p *ngIf="isContribuyente">(con Deuda)</p>
+                </div>
+
+                <div class="price" fxLayout="row" fxLayoutAlign="center start">
+                    <div class="value">{{impuestos_aut_count}}</div>
+                </div>                 
+                <button mat-raised-button color="accent" (click)="goToImpuestosAut()">{{'COMMON.BUTTONS.VIEW_DETAIL' | translate}}</button>
+                            
+            </div>
+
+            <div class="price-table style-2 mat-elevation-z12" fxLayout="column" *blockUI="'bw-blockui-impuestos-inm'">
+
+                <div class="package-type mat-accent-fg">{{'PAGES.IMPUESTOS_INM.TITLE' | translate}}
+                    <p *ngIf="isContribuyente">(con Deuda)</p>
+                </div>
+
+                <div class="price" fxLayout="row" fxLayoutAlign="center start">
+                    <div class="value">{{impuestos_inm_count}}</div>
+                </div>                 
+                <button mat-raised-button color="accent" (click)="goToImpuestosInm()">{{'COMMON.BUTTONS.VIEW_DETAIL' | translate}}</button>
+                            
+            </div>
+
+            <div class="price-table style-2 mat-elevation-z12" fxLayout="column" *blockUI="'bw-blockui-impuestos-tsg'">
+
+                <div class="package-type mat-accent-fg">{{'PAGES.IMPUESTOS_TSG.TITLE' | translate}}
+                    <p *ngIf="isContribuyente">(con Deuda)</p>
+                </div>
+
+                <div class="price" fxLayout="row" fxLayoutAlign="center start">
+                    <div class="value">{{impuestos_tsg_count}}</div>
+                </div>                 
+                <button mat-raised-button color="accent" (click)="goToImpuestosTsg()">{{'COMMON.BUTTONS.VIEW_DETAIL' | translate}}</button>
+                            
+            </div>
+            
+        </div>
+        <!-- <span *ngFor="let computer of _computerService.entitiesObservable | async">
+            {{computer.Name}}
+        </span> -->
+    </div>
+  
+</div>

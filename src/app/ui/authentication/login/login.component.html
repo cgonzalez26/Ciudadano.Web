@@ -1,0 +1,88 @@
+<div id="login" fxLayout="column">
+
+    <div id="login-form-wrapper" fxLayout="column" fxLayoutAlign="center center">
+
+        <div id="login-form" [@animate]="{value:'*',params:{duration:'300ms',y:'100px'}}">
+
+            <!--<div class="logo">
+                <img src="assets/images/logos/logo_provincia_texto.png">
+            </div>-->
+
+            <div class="title text-uppercase">{{'PAGES.LOGIN.TITLE' | translate}}</div>
+
+            <form name="loginForm" [formGroup]="loginForm" novalidate>
+
+                <mat-form-field appearance="outline">
+                    <mat-label>{{'PAGES.LOGIN.USERNAME' | translate}}</mat-label>
+                    <input matInput formControlName="userName">
+                    <mat-icon matSuffix class="secondary-text">person</mat-icon>
+                    <mat-error *ngIf="loginForm.get('userName').hasError('required')">
+                        {{ 'PAGES.LOGIN.VALIDATIONS.REQUIRED' | translate: {value: ('PAGES.LOGIN.USERNAME' | translate)} }}
+                    </mat-error>
+                    <!-- <mat-error
+                        *ngIf="!loginForm.get('email').hasError('required') &&
+                                loginForm.get('email').hasError('email')">
+                        Please enter a valid email address
+                    </mat-error> -->
+                </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                    <mat-label>{{'PAGES.LOGIN.PASSWORD' | translate}}</mat-label>
+                    <input matInput type="password" formControlName="password">
+                    <mat-icon matSuffix class="secondary-text">vpn_key</mat-icon>
+                    <mat-error>
+                        {{ 'PAGES.LOGIN.VALIDATIONS.REQUIRED' | translate: {value: ('PAGES.LOGIN.PASSWORD' | translate)} }}
+                    </mat-error>
+                </mat-form-field>
+
+                <!-- <div class="remember-forgot-password" fxLayout="row" fxLayout.xs="column"
+                     fxLayoutAlign="space-between center">
+                    <mat-checkbox class="remember-me" aria-label="Remember Me">
+                        {{'PAGES.LOGIN.REMEMBER_ME' | translate}}
+                    </mat-checkbox>
+
+                    <a class="forgot-password" [routerLink]="'/ui/auth/forgot-password'">
+                        {{'PAGES.LOGIN.FORGOT_PASSWORD' | translate}}
+                    </a>
+                </div> -->
+
+                <button mat-raised-button color="accent" class="submit-button text-uppercase" aria-label="LOG IN"
+                        [disabled]="loginForm.invalid" (click)="login()" *ngIf="!isLoading">
+                    {{'PAGES.LOGIN.LOG_IN' | translate}}
+                </button>
+
+                <div fxLayoutAlign="center center" *ngIf="isLoading">
+                    <mat-spinner [color]="'accent'" [diameter]="36" [strokeWidth]="4"></mat-spinner>
+                </div>
+
+                <div fxLayoutAlign="center center" *ngIf="hasError">
+                    <span class="red-fg">{{'PAGES.LOGIN.LOGIN_ERROR' | translate}}</span>
+                </div>
+
+            </form>
+
+            <!-- <div class="separator">
+                <span class="text">OR</span>
+            </div>
+
+            <button mat-raised-button class="google">
+                Log in with Google
+            </button>
+
+            <button mat-raised-button class="facebook">
+                Log in with Facebook
+            </button>
+            -->
+            <div class="register" fxLayout="column" fxLayoutAlign="center center">
+                <span class="text">No tiene una Cuenta?</span>
+                <a class="link" [routerLink]="'/ui/auth/register'">Crear una Cuenta</a>
+            </div> 
+
+        </div>
+
+        <!--<a mat-button class="powered-by p-0">Powered by: Agencia de Información de Políticas Públicas - Coordinación de Enlace y Relaciones
+            Políticas</a>-->
+
+    </div>
+
+</div>
